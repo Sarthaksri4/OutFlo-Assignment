@@ -1,4 +1,3 @@
-// messageController.js
 const { GoogleGenAI } = require("@google/genai");
 
 exports.generateMessage = async (req, res) => {
@@ -18,7 +17,18 @@ exports.generateMessage = async (req, res) => {
 
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
-      contents: `Generate a LinkedIn outreach message for ${name}, a ${jobTitle} at ${company}, located in ${location}. Summary: ${summary}`,
+      contents: `Generate a SHORT LinkedIn outreach message (3-4 sentences max) using this template:
+      
+      "Hi ${name},
+      
+      I noticed you're a ${jobTitle} at ${company} in ${location}. [Add 1 specific detail from: ${summary}].
+      
+      Would be great to connect and learn more about your work.
+      
+      Best,
+      [Your Name]"
+      
+      Keep it professional but concise. Focus on the most relevant detail from the summary.`,
     });
 
     const message = response.text;
