@@ -3,53 +3,77 @@ import { Campaign, LinkedInProfile, MessageResponse } from "../types";
 
 const API_URL = "https://comp-ieud.onrender.com";
 
-const handleResponse = async (response: Response): Promise<any> => {
+interface ApiError {
+  message: string;
+  status?: number;
+  data?: unknown;
+}
+
+const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || 'Request failed');
+    let errorData: { error?: string };
+    try {
+      errorData = await response.json();
+    } catch {
+      errorData = { error: response.statusText };
+    }
+    const error: ApiError = {
+      message: errorData.error || 'Request failed',
+      status: response.status
+    };
+    throw error;
   }
-  return await response.json();
+
+  return response.json() as Promise<T>;
 };
 
 export const fetchCampaigns = async (): Promise<Campaign[]> => {
-  const response = await fetch(`${API_URL}/campaigns`);
-  return handleResponse(response);
+  const response = await fetch(`${API_URL}/campaigns`, {
+    credentials: 'include'
+  });
+  return handleResponse<Campaign[]>(response);
 };
 
 export const fetchCampaign = async (id: string): Promise<Campaign> => {
-  const response = await fetch(`${API_URL}/campaigns/${id}`);
-  return handleResponse(response);
+  const response = await fetch(`${API_URL}/campaigns/${id}`, {
+    credentials: 'include'
+  });
+  return handleResponse<Campaign>(response);
 };
 
 export const createCampaign = async (data: Omit<Campaign, '_id'>): Promise<Campaign> => {
   const response = await fetch(`${API_URL}/campaigns`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: 'include',
     body: JSON.stringify(data)
   });
-  return handleResponse(response);
+  return handleResponse<Campaign>(response);
 };
 
 export const updateCampaign = async (id: string, data: Partial<Campaign>): Promise<Campaign> => {
   const response = await fetch(`${API_URL}/campaigns/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
+    credentials: 'include',
     body: JSON.stringify(data)
   });
-  return handleResponse(response);
+  return handleResponse<Campaign>(response);
 };
 
 export const deleteCampaign = async (id: string): Promise<{ message: string }> => {
   const response = await fetch(`${API_URL}/campaigns/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
+    credentials: 'include'
   });
-  return handleResponse(response);
+  return handleResponse<{ message: string }>(response);
 };
 
 export const generateMessage = async (data: LinkedInProfile): Promise<MessageResponse> => {
   const response = await fetch(`${API_URL}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: 'include',
     body: JSON.stringify({
       name: data.name,
       jobTitle: data.jobTitle,
@@ -58,5 +82,5 @@ export const generateMessage = async (data: LinkedInProfile): Promise<MessageRes
       summary: data.summary
     })
   });
-  return handleResponse(response);
+  return handleResponse<MessageResponse>(response);
 };
