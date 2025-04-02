@@ -1,5 +1,6 @@
+// src/components/CampaignForm.tsx
 import { useState } from "react";
-import { Campaign } from "../services/api";
+import { Campaign } from "../types";
 
 type CampaignFormProps = {
   campaign: Campaign;
@@ -34,7 +35,7 @@ export default function CampaignForm({
   const removeLead = (index: number) => {
     setForm({
       ...form,
-      leads: form.leads.filter((_, i) => i !== index)
+      leads: form.leads.filter((_: string, i: number) => i !== index)
     });
   };
 
@@ -51,7 +52,7 @@ export default function CampaignForm({
   const removeAccountID = (index: number) => {
     setForm({
       ...form,
-      accountIDs: form.accountIDs.filter((_, i) => i !== index)
+      accountIDs: form.accountIDs.filter((_: string, i: number) => i !== index)
     });
   };
 

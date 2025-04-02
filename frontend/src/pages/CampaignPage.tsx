@@ -1,3 +1,4 @@
+// src/pages/CampaignPage.tsx
 import { useEffect, useState } from "react";
 import CampaignForm from "../components/CampaignForm";
 import CampaignTable from "../components/CampaignTable";
@@ -7,6 +8,7 @@ import {
   updateCampaign, 
   deleteCampaign 
 } from "../services/api";
+import { Campaign } from "../types";
 
 export default function CampaignPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -25,7 +27,11 @@ export default function CampaignPage() {
       const data = await fetchCampaigns();
       setCampaigns(data);
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -43,7 +49,11 @@ export default function CampaignPage() {
       loadCampaigns();
       setCurrentCampaign(null);
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -56,7 +66,11 @@ export default function CampaignPage() {
       await deleteCampaign(id);
       loadCampaigns();
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }

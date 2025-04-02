@@ -1,27 +1,9 @@
+// src/services/api.ts
+import { Campaign, LinkedInProfile, MessageResponse } from "../types";
+
 const API_URL = "https://comp-ieud.onrender.com";
 
-type Campaign = {
-  _id?: string;
-  name: string;
-  description: string;
-  status: 'ACTIVE' | 'INACTIVE' | 'DELETED';
-  leads: string[];
-  accountIDs: string[];
-};
-
-type LinkedInProfile = {
-  name: string;
-  jobTitle: string;
-  company: string;
-  location: string;
-  summary: string;
-};
-
-type MessageResponse = {
-  message: string;
-};
-
-const handleResponse = async (response: Response) => {
+const handleResponse = async (response: Response): Promise<any> => {
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.error || 'Request failed');

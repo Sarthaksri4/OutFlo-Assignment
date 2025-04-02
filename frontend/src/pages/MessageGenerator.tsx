@@ -1,8 +1,10 @@
+// src/pages/MessageGenerator.tsx
 import { useState } from "react";
 import { generateMessage } from "../services/api";
+import { LinkedInProfile, MessageResponse } from "../types";
 
 export default function MessageGenerator() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<LinkedInProfile>({
     name: "",
     jobTitle: "",
     company: "",
@@ -21,7 +23,11 @@ export default function MessageGenerator() {
       const response = await generateMessage(form);
       setMessage(response.message);
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
