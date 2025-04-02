@@ -1,7 +1,6 @@
-// src/pages/MessageGenerator.tsx
 import { useState } from "react";
 import { generateMessage } from "../services/api";
-import { LinkedInProfile, MessageResponse } from "../types";
+import { LinkedInProfile } from "../types";
 
 export default function MessageGenerator() {
   const [form, setForm] = useState<LinkedInProfile>({
