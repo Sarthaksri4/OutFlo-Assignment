@@ -17,26 +17,22 @@ app.use(cors({
   credentials: true
 }));
 
-// Essential middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection
 connectDB();
-
-// Routes
+const authRoutes = require("./routes/authRoutes");
 const campaignRoutes = require("./routes/campaignRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 
+app.use("/auth", authRoutes);
 app.use("/campaigns", campaignRoutes);
 app.use("/api", messageRoutes);
 
-// Basic health check
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "OK" });
 });
 
-// Basic error handling
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: "Server error" });
