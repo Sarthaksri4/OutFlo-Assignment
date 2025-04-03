@@ -1,4 +1,3 @@
-// src/services/api.ts
 import { Campaign, LinkedInProfile, MessageResponse } from "../types";
 
 const API_URL = "https://comp-ieud.onrender.com";
@@ -23,8 +22,37 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
     };
     throw error;
   }
-
   return response.json() as Promise<T>;
+};
+
+export const sendOtp = async (email: string): Promise<{ success: boolean; message: string }> => {
+  const response = await fetch(`${API_URL}/auth/send-otp`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: 'include',
+    body: JSON.stringify({ email })
+  });
+  return handleResponse<{ success: boolean; message: string }>(response);
+};
+
+export const signup = async (email: string, password: string, otp: string): Promise<{ success: boolean; message: string }> => {
+  const response = await fetch(`${API_URL}/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: 'include',
+    body: JSON.stringify({ email, password, otp })
+  });
+  return handleResponse<{ success: boolean; message: string }>(response);
+};
+
+export const login = async (email: string, password: string): Promise<{ success: boolean; token: string; message: string }> => {
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: 'include',
+    body: JSON.stringify({ email, password })
+  });
+  return handleResponse<{ success: boolean; token: string; message: string }>(response);
 };
 
 export const fetchCampaigns = async (): Promise<Campaign[]> => {

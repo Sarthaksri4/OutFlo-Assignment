@@ -1,4 +1,3 @@
-// src/pages/CampaignPage.tsx
 import { useEffect, useState } from "react";
 import CampaignForm from "../components/CampaignForm";
 import CampaignTable from "../components/CampaignTable";

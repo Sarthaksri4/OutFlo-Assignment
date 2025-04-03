@@ -1,4 +1,3 @@
-// src/components/CampaignForm.tsx
 import { useState } from "react";
 import { Campaign } from "../types";
 
@@ -76,7 +75,6 @@ export default function CampaignForm({
             />
           </div>
 
-          {/* Description Field */}
           <div>
             <label className="block mb-2 text-gray-300">Description*</label>
             <textarea
@@ -87,7 +85,6 @@ export default function CampaignForm({
             />
           </div>
 
-          {/* Status Field */}
           <div>
             <label className="block mb-2 text-gray-300">Status*</label>
             <select
@@ -104,7 +101,6 @@ export default function CampaignForm({
             </select>
           </div>
 
-          {/* Leads Field */}
           <div>
             <label className="block mb-2 text-gray-300">LinkedIn Leads</label>
             <div className="flex gap-2 mb-2">
@@ -143,7 +139,6 @@ export default function CampaignForm({
             )}
           </div>
 
-          {/* Account IDs Field */}
           <div>
             <label className="block mb-2 text-gray-300">Account IDs</label>
             <div className="flex gap-2 mb-2">

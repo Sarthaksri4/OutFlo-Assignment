@@ -1,4 +1,3 @@
-// src/components/CampaignTable.tsx
 import { Campaign } from "../types";
 
 type CampaignTableProps = {
